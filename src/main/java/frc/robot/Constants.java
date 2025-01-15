@@ -19,5 +19,14 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int intakeMotorID = 0;
     public static final int intakeDistanceSensorID = 0;
+    public static final double intakeNoteThreshold = 0.0;
+  }
+  public static class IndexerConstants {
+    public static final int indexerMotorID = 0;
+    public static final int indexerDistanceSensorID = 0;
+    public static final double indexerNoteThreshold = 0.0;
+  }
+  public static class ScoringConstants {
+    public static final double intakeTargetSpeed = 0;
   }
 }

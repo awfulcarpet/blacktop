@@ -21,4 +21,14 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public void runIntake (double speed) {
+    intakeMotorSparkMax.set(speed);
+  }
+  public void disable() {
+    runIntake(0);
+  }
+  public boolean isNotePresent() {
+    return intakeDistanceSensor.getRange() < IntakeConstants.intakeNoteThreshold;
+  }
 }
