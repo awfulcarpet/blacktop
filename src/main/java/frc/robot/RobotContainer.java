@@ -4,13 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DriverConstants;
 import frc.robot.subsystems.Swerve;
 
 import java.io.File;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -23,17 +23,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-	private final XboxController drivController = new XboxController(0);
+	private final XboxController drivController = new XboxController(DriverConstants.kDriverControllerPort);
 
-	public double deadbandval(double val, double deadband) {
-		if (val < deadband)
-			return 0.0;
-		return val;
-	}
 
-	public Supplier<Double> leftX = () -> deadbandval(-drivController.getLeftX(), 0.3);
-	public Supplier<Double> leftY = () -> deadbandval(-drivController.getLeftY(), 0.3);
-	public Supplier<Double> rightX = () -> deadbandval(-drivController.getRightX(), 0.3);
+	public Supplier<Double> leftX = () -> DriverConstants.deadbandval(-drivController.getLeftX(), DriverConstants.joystickdeadzone);
+	public Supplier<Double> leftY = () -> DriverConstants.deadbandval(-drivController.getLeftY(), DriverConstants.joystickdeadzone);
+	public Supplier<Double> rightX = () -> DriverConstants.deadbandval(-drivController.getRightX(), DriverConstants.joystickdeadzone);
 
 	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "neo"));
 
@@ -57,7 +52,7 @@ public class RobotContainer {
 	 * joysticks}.
 	 */
 	private void configureBindings() {
-		//swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, true));
+		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, true));
 	}
 
 	/**
