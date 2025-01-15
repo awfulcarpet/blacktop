@@ -17,6 +17,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class IntakeConstants {
-    
+    public static final int intakeMotorID = 0;
+    public static final int intakeDistanceSensorID = 0;
   }
 }
