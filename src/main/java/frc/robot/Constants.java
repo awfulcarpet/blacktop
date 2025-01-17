@@ -28,6 +28,10 @@ public final class Constants {
     public static final int indexerDistanceSensorID = 0;
     public static final double indexerNoteThreshold = 0.0;
   }
+  public static class ShooterConstants {
+    public static final int shooterMotor1 = 0;
+    public static final int shooterMotor2 = 0; //TODO: GIVE THESE ACTUAL NAMES
+  }
   public static class ScoringConstants {
     public static final double intakeTargetSpeed = 0;
   }
