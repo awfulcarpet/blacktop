@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -30,7 +31,9 @@ public class RobotContainer {
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "neo"));
+	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
+
+	private Trigger resetGyro = new Trigger(() -> drivController.getYButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
@@ -52,6 +55,7 @@ public class RobotContainer {
 	 * joysticks}.
 	 */
 	private void configureBindings() {
+		resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
 		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, true));
 	}
 
@@ -61,6 +65,6 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return swerve.drive(() -> 1.0, () -> -0.5, () -> 1.0, true);
+		return swerve.drive(() -> 1.0, () -> 0.0, () -> 0.0, true);
 	}
 }

@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +31,7 @@ public class Swerve extends SubsystemBase {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		swerve.resetOdometry(new Pose2d(5, 5, Rotation2d.kZero));
 	}
 
 	@Override
@@ -36,9 +40,14 @@ public class Swerve extends SubsystemBase {
 		swerve.setCosineCompensator(false);
 	}
 
+	public void resetGyro() {
+		swerve.setGyro(Rotation3d.kZero);
+		swerve.resetOdometry(new Pose2d(5, 5, Rotation2d.kZero));
+	}
+
 	public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rotation, boolean fieldRelative) {
 		return run(() -> {
-			swerve.drive(new Translation2d(x.get(), y.get()), rotation.get(), fieldRelative, false);
+			swerve.drive(new Translation2d(x.get(), y.get()).times(maxspeed), rotation.get(), fieldRelative, false);
 		});
 	}
 
