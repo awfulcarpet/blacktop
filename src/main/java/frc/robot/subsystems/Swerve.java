@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase {
 
 	public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rotation, boolean fieldRelative) {
 		return run(() -> {
-			swerve.drive(new Translation2d(x.get(), y.get()).times(maxspeed), rotation.get(), fieldRelative, false);
+			swerve.drive(new Translation2d(x.get(), y.get()).times(maxspeed), rotation.get() * maxspeed, fieldRelative, false);
 		});
 	}
 
