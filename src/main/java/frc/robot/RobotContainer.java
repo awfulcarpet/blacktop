@@ -23,12 +23,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-	private final XboxController drivController = new XboxController(DriverConstants.kDriverControllerPort);
+	private final XboxController driveController = new XboxController(DriverConstants.kDriverControllerPort);
 
 
-	public Supplier<Double> leftX = () -> DriverConstants.deadbandval(-drivController.getLeftX(), DriverConstants.joystickdeadzone);
-	public Supplier<Double> leftY = () -> DriverConstants.deadbandval(-drivController.getLeftY(), DriverConstants.joystickdeadzone);
-	public Supplier<Double> rightX = () -> DriverConstants.deadbandval(-drivController.getRightX(), DriverConstants.joystickdeadzone);
+	public Supplier<Double> leftX = () -> DriverConstants.deadbandVal(-driveController.getLeftX(), DriverConstants.joystickDeadzone);
+	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
+	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
 	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "neo"));
 

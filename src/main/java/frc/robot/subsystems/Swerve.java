@@ -18,13 +18,13 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class Swerve extends SubsystemBase {
 	private final SwerveDrive swerve;
-	private final double maxspeed = 5;
+	private final double maxSpeed = 5;
 
 	/** Creates a new Swerve. */
 	public Swerve(File dir) {
 		 SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
 		try {
-			swerve = new SwerveParser(dir).createSwerveDrive(maxspeed);
+			swerve = new SwerveParser(dir).createSwerveDrive(maxSpeed);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

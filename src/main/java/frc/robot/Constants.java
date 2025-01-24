@@ -37,9 +37,9 @@ public final class Constants {
   }
 	public static class DriverConstants {
 		public static final int kDriverControllerPort = 0;
-		public static final double joystickdeadzone = 0.1;
+		public static final double joystickDeadzone = 0.1;
 
-		public static double deadbandval(double val, double deadband) {
+		public static double deadbandVal(double val, double deadband) {
 			return MathUtil.applyDeadband(val, deadband);
 		}
 	}
