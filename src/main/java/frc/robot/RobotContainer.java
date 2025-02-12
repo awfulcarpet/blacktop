@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.DriverConstants;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 import java.io.File;
@@ -31,9 +32,11 @@ public class RobotContainer {
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
+	// private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
+	private final Shooter shooter = new Shooter();
 
 	private Trigger resetGyro = new Trigger(() -> drivController.getYButton());
+	private Trigger test = new Trigger(() -> drivController.getBButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
@@ -55,8 +58,12 @@ public class RobotContainer {
 	 * joysticks}.
 	 */
 	private void configureBindings() {
-		resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
-		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, true));
+		// resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
+		// test.whileTrue(shooter.test());
+		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
+
+
+		shooter.setDefaultCommand(shooter.test());
 	}
 
 	/**
@@ -65,6 +72,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return swerve.drive(() -> 1.0, () -> 0.0, () -> 0.0, true);
+		// return swerve.drive(() -> 1.0, () -> 0.0, () -> 0.0, () -> true, () -> false);
+		return Commands.none();
 	}
 }

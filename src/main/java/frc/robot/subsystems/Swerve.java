@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,13 +33,13 @@ public class Swerve extends SubsystemBase {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		swerve.resetOdometry(new Pose2d(5, 5, Rotation2d.kZero));
-	}
 
-	@Override
-	public void simulationPeriodic() {
-		swerve.setHeadingCorrection(false);
-		swerve.setCosineCompensator(false);
+		swerve.resetOdometry(new Pose2d(5, 5, Rotation2d.kZero));
+
+		if (RobotBase.isSimulation()) {
+			swerve.setHeadingCorrection(false);
+			swerve.setCosineCompensator(false);
+		}
 	}
 
 	public void resetGyro() {
@@ -45,10 +47,14 @@ public class Swerve extends SubsystemBase {
 		swerve.resetOdometry(new Pose2d(5, 5, Rotation2d.kZero));
 	}
 
-	public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rotation, boolean fieldRelative) {
+	public Command drive(Supplier<Double> x, Supplier<Double> y, Supplier<Double> rotation, Supplier<Boolean> fieldRelative, Supplier<Boolean> openLoop) {
 		return run(() -> {
-			swerve.drive(new Translation2d(x.get(), y.get()).times(maxspeed), rotation.get() * maxspeed, fieldRelative, false);
+			swerve.drive(new Translation2d(x.get(), y.get()), rotation.get(), fieldRelative.get(), openLoop.get());
 		});
+	}
+
+	public void fieldRelativeDrive(ChassisSpeeds vel) {
+		swerve.driveFieldOriented(vel);
 	}
 
 	@Override
