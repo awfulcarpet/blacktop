@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
@@ -46,6 +47,8 @@ public class Leds extends SubsystemBase {
   public boolean autoFinished = false;
   public double autoFinishedTime = 0.0;
   public boolean lowBatteryAlert = false;
+
+  public boolean testing = false;
 
   private Alliance alliance = Alliance.Blue;
   private boolean lastEnabledAuto = false;
@@ -85,15 +88,16 @@ public class Leds extends SubsystemBase {
   private static final double autoFadeTime = 2.5; // 3s nominal
   private static final double autoFadeMaxTime = 5.0; // Return to normal
 
+  private static final int ledport = 1;
   // LED Lengths
-  private static final int length = 16;
+  private static final int length = 26;
   private static final int bottomLength = 0;
 
   private static final int underglowLength = 24;
 
   private Leds() {
     System.out.println("[Init] Creating LEDs");
-    leds = new AddressableLED(0);
+    leds = new AddressableLED(ledport);
     buffer = new AddressableLEDBuffer(length);
     leds.setLength(length);
     leds.setData(buffer);
@@ -156,6 +160,9 @@ public class Leds extends SubsystemBase {
     if (estopped) {
       solid(Section.FULL, Color.kRed);
     } else if (DriverStation.isDisabled()) {
+	  if (testing) {
+		  solid(Section.FULL, new Color(250, 96, 250));
+	  } else
       if (lastEnabledAuto && Timer.getFPGATimestamp() - lastEnabledTime < autoFadeMaxTime) {
         // Auto fade
         solid(1.0 - ((Timer.getFPGATimestamp() - lastEnabledTime) / autoFadeTime), Color.kGreen);
