@@ -161,7 +161,12 @@ public class Leds extends SubsystemBase {
       solid(Section.FULL, Color.kRed);
     } else if (DriverStation.isDisabled()) {
 	  if (testing) {
-		  solid(Section.FULL, new Color(250, 96, 250));
+          stripes(
+          Section.FULL,
+          List.of(Color.kRed, Color.kCyan),
+          stripesLongLength,
+          stripeFastDuration);
+		  buffer.setRGB(10, 255, 0, 255);
 	  } else
       if (lastEnabledAuto && Timer.getFPGATimestamp() - lastEnabledTime < autoFadeMaxTime) {
         // Auto fade
