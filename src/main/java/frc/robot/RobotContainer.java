@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -33,7 +34,7 @@ public class RobotContainer {
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
 	// private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
-	private final Shooter shooter = new Shooter();
+	// private final Shooter shooter = new Shooter();
 
 	private Trigger resetGyro = new Trigger(() -> drivController.getYButton());
 	private Trigger test = new Trigger(() -> drivController.getBButton());
@@ -61,9 +62,7 @@ public class RobotContainer {
 		// resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
 		// test.whileTrue(shooter.test());
 		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
-
-
-		shooter.setDefaultCommand(shooter.test());
+		// shooter.setDefaultCommand(shooter.test());
 	}
 
 	/**
@@ -73,6 +72,7 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// return swerve.drive(() -> 1.0, () -> 0.0, () -> 0.0, () -> true, () -> false);
+		//return Commands.runOnce(() -> servo.setSpeed(1)).andThen(Commands.waitSeconds(1)).andThen(Commands.runOnce(() -> servo.setSpeed(-1)));
 		return Commands.none();
 	}
 }
