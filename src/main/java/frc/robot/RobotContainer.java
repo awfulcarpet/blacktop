@@ -33,7 +33,7 @@ public class RobotContainer {
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	// private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
+	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
 	// private final Shooter shooter = new Shooter();
 
 	private Trigger resetGyro = new Trigger(() -> drivController.getYButton());
@@ -61,7 +61,7 @@ public class RobotContainer {
 	private void configureBindings() {
 		// resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
 		// test.whileTrue(shooter.test());
-		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
+		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
 		// shooter.setDefaultCommand(shooter.test());
 	}
 
