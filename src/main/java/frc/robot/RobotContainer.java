@@ -47,8 +47,8 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		hoodAll.onTrue(shooter.setHoodCoverPercent(1));
-		hoodMid.onTrue(shooter.setHoodCoverPercent(0));
-		hoodNone.onTrue(shooter.setHoodCoverPercent(-1));
+		hoodMid.onTrue(shooter.setHoodCoverPercent(0.5));
+		hoodNone.onTrue(shooter.setHoodCoverPercent(0));
 		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
 	}
 

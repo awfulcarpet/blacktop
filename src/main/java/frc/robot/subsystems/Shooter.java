@@ -24,16 +24,11 @@ public class Shooter extends SubsystemBase {
 
 	public Command setHoodCoverPercent(double percent) {
 		return run(() -> {
-			hoodController.setSpeed(percent);
+			hoodController.setSpeed((percent * 2.0) - 1.0);
 		});
-	}
-
-	public double getHoodAngle() {
-		return 0.0;
 	}
 
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
 	}
 }
