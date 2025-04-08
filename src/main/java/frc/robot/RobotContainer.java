@@ -28,51 +28,31 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 	private final XboxController driveController = new XboxController(DriverConstants.kDriverControllerPort);
 
-
 	public Supplier<Double> leftX = () -> DriverConstants.deadbandVal(-driveController.getLeftX(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
-	// private final Shooter shooter = new Shooter();
+	// private final Swerve swerve = new Swerve(new File(Filesystem.getDeployDirectory(), "swerve"));
+	private final Shooter shooter = new Shooter();
 
-	private Trigger resetGyro = new Trigger(() -> drivController.getYButton());
-	private Trigger test = new Trigger(() -> drivController.getBButton());
+	// private Trigger resetGyro = new Trigger(() -> driveController.getYButton());
+	private Trigger hoodAll = new Trigger(() -> driveController.getYButton());
+	private Trigger hoodMid = new Trigger(() -> driveController.getBButton());
+	private Trigger hoodNone = new Trigger(() -> driveController.getAButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
 		configureBindings();
 	}
 
-	/**
-	 * Use this method to define your trigger->command mappings. Triggers can be
-	 * created via the
-	 * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-	 * an arbitrary
-	 * predicate, or via the named factories in {@link
-	 * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-	 * {@link
-	 * CommandXboxController
-	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-	 * PS4} controllers or
-	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-	 * joysticks}.
-	 */
 	private void configureBindings() {
-		// resetGyro.onTrue(Commands.runOnce(() -> swerve.resetGyro(), swerve));
-		// test.whileTrue(shooter.test());
-		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
-		// shooter.setDefaultCommand(shooter.test());
+		hoodAll.onTrue(shooter.setHoodCoverPercent(1));
+		hoodMid.onTrue(shooter.setHoodCoverPercent(0));
+		hoodNone.onTrue(shooter.setHoodCoverPercent(-1));
+		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
 	}
 
-	/**
-	 * Use this to pass the autonomous command to the main {@link Robot} class.
-	 *
-	 * @return the command to run in autonomous
-	 */
 	public Command getAutonomousCommand() {
-		// return swerve.drive(() -> 1.0, () -> 0.0, () -> 0.0, () -> true, () -> false);
-		//return Commands.runOnce(() -> servo.setSpeed(1)).andThen(Commands.waitSeconds(1)).andThen(Commands.runOnce(() -> servo.setSpeed(-1)));
 		return Commands.none();
 	}
 }
