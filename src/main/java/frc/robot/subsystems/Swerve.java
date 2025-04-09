@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -17,9 +19,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Swerve extends SubsystemBase {
 	// Create MAXSwerveModules
 	private final MAXSwerveModule m_frontLeft = new MAXSwerveModule(
 			DriveConstants.kFrontLeftDrivingCanId,
@@ -56,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
 			});
 
 	/** Creates a new DriveSubsystem. */
-	public DriveSubsystem() {
+	public Swerve() {
 		// Usage reporting for MAXSwerve template
 		HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
 	}
@@ -104,28 +107,31 @@ public class DriveSubsystem extends SubsystemBase {
 	 * Method to drive the robot using joystick info.
 	 *
 	 * @param xSpeed        Percent Speed of the robot in the x direction (forward).
-	 * @param ySpeed        Percent Speed of the robot in the y direction (sideways).
+	 * @param ySpeed        Percent Speed of the robot in the y direction
+	 *                      (sideways).
 	 * @param rot           Percent Angular rate of the robot.
 	 * @param fieldRelative Whether the provided x and y speeds are relative to the
 	 *                      field.
 	 */
-	public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-		// Convert the commanded speeds into the correct units for the drivetrain
-		double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-		double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-		double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+	public Command drive(Supplier<Double> xSpeed, Supplier<Double> ySpeed, Supplier<Double> rot, Supplier<Boolean> fieldRelative) {
+		return run(() -> {
+			// Convert the commanded speeds into the correct units for the drivetrain
+			double xSpeedDelivered = xSpeed.get() * DriveConstants.kMaxSpeedMetersPerSecond;
+			double ySpeedDelivered = ySpeed.get() * DriveConstants.kMaxSpeedMetersPerSecond;
+			double rotDelivered = rot.get() * DriveConstants.kMaxAngularSpeed;
 
-		var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-				fieldRelative
-						? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-								Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
-						: new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
-		SwerveDriveKinematics.desaturateWheelSpeeds(
-				swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-		m_frontLeft.setDesiredState(swerveModuleStates[0]);
-		m_frontRight.setDesiredState(swerveModuleStates[1]);
-		m_rearLeft.setDesiredState(swerveModuleStates[2]);
-		m_rearRight.setDesiredState(swerveModuleStates[3]);
+			var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
+					fieldRelative.get()
+							? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+									Rotation2d.fromDegrees(m_gyro.getAngle(IMUAxis.kZ)))
+							: new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+			SwerveDriveKinematics.desaturateWheelSpeeds(
+					swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+			m_frontLeft.setDesiredState(swerveModuleStates[0]);
+			m_frontRight.setDesiredState(swerveModuleStates[1]);
+			m_rearLeft.setDesiredState(swerveModuleStates[2]);
+			m_rearRight.setDesiredState(swerveModuleStates[3]);
+		});
 	}
 
 	/**

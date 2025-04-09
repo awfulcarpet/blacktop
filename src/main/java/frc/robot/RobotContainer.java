@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.DriverConstants;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Swerve;
 
 import java.io.File;
 import java.util.function.Supplier;
@@ -33,6 +34,7 @@ public class RobotContainer {
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
 	private final Shooter shooter = new Shooter();
+	private final Swerve swerve = new Swerve();
 
 	// private Trigger resetGyro = new Trigger(() -> driveController.getYButton());
 	private Trigger shoot = new Trigger(() -> driveController.getYButton());
@@ -44,7 +46,7 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		shoot.onTrue(new Shoot(shooter));
-		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
+		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true));
 	}
 
 	public Command getAutonomousCommand() {
