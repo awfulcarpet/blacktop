@@ -22,10 +22,8 @@ public class Shooter extends SubsystemBase {
 		// hoodController.setBoundsMicroseconds(2400, 2000, 1500, 1000, 600);
 	}
 
-	public Command setHoodCoverPercent(double percent) {
-		return run(() -> {
-			hoodController.setSpeed((percent * 2.0) - 1.0);
-		});
+	public void setHoodCoverPercent(double percent) {
+		hoodController.setSpeed((percent * 2.0) - 1.0);
 	}
 
 	@Override

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.DriverConstants;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
@@ -36,9 +37,7 @@ public class RobotContainer {
 	private final Shooter shooter = new Shooter();
 
 	// private Trigger resetGyro = new Trigger(() -> driveController.getYButton());
-	private Trigger hoodAll = new Trigger(() -> driveController.getYButton());
-	private Trigger hoodMid = new Trigger(() -> driveController.getBButton());
-	private Trigger hoodNone = new Trigger(() -> driveController.getAButton());
+	private Trigger shoot = new Trigger(() -> driveController.getYButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
@@ -46,9 +45,7 @@ public class RobotContainer {
 	}
 
 	private void configureBindings() {
-		hoodAll.onTrue(shooter.setHoodCoverPercent(1));
-		hoodMid.onTrue(shooter.setHoodCoverPercent(0.5));
-		hoodNone.onTrue(shooter.setHoodCoverPercent(0));
+		shoot.onTrue(new Shoot(shooter));
 		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true, () -> false));
 	}
 
