@@ -4,19 +4,24 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 public class Shoot extends Command {
 	private Shooter shooter;
+	private Indexer indexer;
 	private double percent;
 	private double rpm;
 
-	public Shoot(Shooter shooter, double percent, double rpm) {
+	public Shoot(Shooter shooter, Indexer indexer, double percent, double rpm) {
 		this.shooter = shooter;
+		this.indexer = indexer;
 		this.percent = percent;
 		this.rpm = rpm;
-		addRequirements(shooter);
+		addRequirements(shooter, indexer);
 	}
 
 	@Override
@@ -28,6 +33,9 @@ public class Shoot extends Command {
 
 	@Override
 	public void execute() {
+		if (shooter.isAtSetpoint()) {
+			indexer.runIndexer(Volts.of(5));
+		}
 	}
 
 	@Override

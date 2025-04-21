@@ -49,6 +49,10 @@ public class Shooter extends SubsystemBase {
 		return shootMotor.getEncoder().getVelocity();
 	}
 
+	public boolean isAtSetpoint() {
+		return getSpeedError() <= ShooterConstants.speedError;
+	}
+
 	public double getSpeedError() {
 		return getSpeed() - target_rpm;
 	}

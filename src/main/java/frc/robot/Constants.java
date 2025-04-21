@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
@@ -59,6 +57,8 @@ public final class Constants {
 
 	public static class ShooterConstants {
 		public static final int shooterMotor1 = 0;
+
+		public static final double speedError = 5;
 
 		public static final SparkBaseConfig shooterConfigs = new SparkMaxConfig()
 			.inverted(true) // TODO: verify that invecrted means counterclocwise

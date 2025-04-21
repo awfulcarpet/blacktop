@@ -43,11 +43,16 @@ public class RobotContainer {
 	public RobotContainer() {
 		// Configure the trigger bindings
 		configureBindings();
+		configDefaultCommands();
 	}
 
 	private void configureBindings() {
-		shoot.whileTrue(new Shoot(shooter, 100, 60));
+		shoot.whileTrue(new Shoot(shooter, indexer, 100, 60));
 		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true));
+	}
+
+	private void configDefaultCommands() {
+		indexer.setDefaultCommand(Commands.run(() -> indexer.disable()));
 	}
 
 	public Command getAutonomousCommand() {
