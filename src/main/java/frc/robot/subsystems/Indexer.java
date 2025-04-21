@@ -4,33 +4,51 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Volts;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexerConstants;
 
 @Logged
 public class Indexer extends SubsystemBase {
-  private SparkMax indexerMotorSparkMax = new SparkMax(IndexerConstants.indexerMotorID, MotorType.kBrushless);
-  private TimeOfFlight indexerDistanceSensor = new TimeOfFlight(IndexerConstants.indexerDistanceSensorID);
-  /** Creates a new Indexer. */
-  public Indexer() {}
+	private SparkMax indexLeader = new SparkMax(IndexerConstants.indexRightID, MotorType.kBrushless);
+	private SparkMax indexFollower = new SparkMax(IndexerConstants.indexLeftID, MotorType.kBrushless);
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	private TimeOfFlight indexerDistanceSensor = new TimeOfFlight(IndexerConstants.indexerDistanceSensorID);
 
-  public void runIndexer (double speed) {
-    indexerMotorSparkMax.set(speed);
-  }
-  public void disable() {
-    runIndexer(0);
-  }
-  public boolean isNotePresent() {
-    return indexerDistanceSensor.getRange() < IndexerConstants.indexerNoteThreshold;
-  }
+	private Voltage target_volts = Volts.zero();
+
+	/** Creates a new Indexer. */
+	public Indexer() {
+		indexLeader.configure(IndexerConstants.rightIndexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+		indexFollower.configure(IndexerConstants.leftIndexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+	}
+
+	/* positive voltage will run the indexer towards the inside of the robot */
+	public void runIndexer(Voltage volts) {
+		target_volts = volts;
+		indexLeader.setVoltage(target_volts);
+	}
+
+	public void disable() {
+		runIndexer(Volts.of(0));
+	}
+
+	public boolean isNotePresent() {
+		return indexerDistanceSensor.getRange() < IndexerConstants.indexerHasBallDistance;
+	}
+
+	@Override
+	public void periodic() {
+		/* this must be called periodically for voltage compensation to work */
+		indexLeader.setVoltage(target_volts);
+	}
 }

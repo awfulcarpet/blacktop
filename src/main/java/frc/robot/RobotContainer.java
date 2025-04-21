@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.DriverConstants;
 import frc.robot.commands.Shoot;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
@@ -33,6 +34,7 @@ public class RobotContainer {
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
 	private final Shooter shooter = new Shooter();
+	private final Indexer indexer = new Indexer();
 	private final Swerve swerve = new Swerve();
 
 	// private Trigger resetGyro = new Trigger(() -> driveController.getYButton());

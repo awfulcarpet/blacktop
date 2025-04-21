@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.EncoderConfig;
@@ -25,6 +27,8 @@ import edu.wpi.first.math.util.Units;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+
+ /* TODO: find all CAN ids for all motors */
 public final class Constants {
 	public static class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
@@ -37,9 +41,20 @@ public final class Constants {
 	}
 
 	public static class IndexerConstants {
-		public static final int indexerMotorID = 0;
+		public static final int indexRightID = 0;
+		public static final int indexLeftID = 0;
 		public static final int indexerDistanceSensorID = 0;
-		public static final double indexerNoteThreshold = 0.0;
+		public static final double indexerHasBallDistance = 30.0; /* TODO: find actual value */
+
+		public static final SparkBaseConfig rightIndexConfig = new SparkMaxConfig()
+			.inverted(true)
+			.idleMode(IdleMode.kBrake)
+		;
+
+		public static final SparkBaseConfig leftIndexConfig = new SparkMaxConfig()
+			.inverted(false)
+			.follow(indexRightID)
+		;
 	}
 
 	public static class ShooterConstants {
