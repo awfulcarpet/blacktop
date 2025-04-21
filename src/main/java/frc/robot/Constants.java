@@ -28,13 +28,19 @@ import edu.wpi.first.math.util.Units;
 
  /* TODO: find all CAN ids for all motors */
 public final class Constants {
-	public static class OperatorConstants {
+	public static class DriverConstants {
 		public static final int kDriverControllerPort = 0;
+		public static final double joystickDeadzone = 0.1;
+
+		public static double deadbandVal(double val, double deadband) {
+			return MathUtil.applyDeadband(val, deadband);
+		}
 	}
 
 	public static class IntakeConstants {
 		public static final int intakeMotorID = 0;
 		public static final int intakeDistanceSensorID = 0;
+
 		public static final double intakeNoteThreshold = 0.0;
 	}
 
@@ -42,6 +48,7 @@ public final class Constants {
 		public static final int indexRightID = 0;
 		public static final int indexLeftID = 0;
 		public static final int indexerDistanceSensorID = 0;
+
 		public static final double indexerHasBallDistance = 30.0; /* TODO: find actual value */
 
 		public static final SparkBaseConfig rightIndexConfig = new SparkMaxConfig()
@@ -56,7 +63,7 @@ public final class Constants {
 	}
 
 	public static class ShooterConstants {
-		public static final int shooterMotor1 = 0;
+		public static final int shooterMotorID = 0;
 
 		public static final double speedError = 5;
 
@@ -74,15 +81,6 @@ public final class Constants {
 
 	public static class ScoringConstants {
 		public static final double intakeTargetSpeed = 0;
-	}
-
-	public static class DriverConstants {
-		public static final int kDriverControllerPort = 0;
-		public static final double joystickDeadzone = 0.1;
-
-		public static double deadbandVal(double val, double deadband) {
-			return MathUtil.applyDeadband(val, deadband);
-		}
 	}
 
 	public static final class DriveConstants {
@@ -141,11 +139,6 @@ public final class Constants {
 		public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
 		public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
 				/ kDrivingMotorReduction;
-	}
-
-	public static final class OIConstants {
-		public static final int kDriverControllerPort = 0;
-		public static final double kDriveDeadband = 0.05;
 	}
 
 	public static final class AutoConstants {
