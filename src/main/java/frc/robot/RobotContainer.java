@@ -9,15 +9,11 @@ import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
-import java.io.File;
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -45,7 +41,7 @@ public class RobotContainer {
 	}
 
 	private void configureBindings() {
-		shoot.onTrue(new Shoot(shooter));
+		shoot.whileTrue(new Shoot(shooter, 100, 60));
 		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true));
 	}
 

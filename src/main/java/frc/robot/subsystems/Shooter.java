@@ -13,9 +13,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
 	private SparkMax shootMotor = new SparkMax(2, MotorType.kBrushless);
@@ -34,6 +32,10 @@ public class Shooter extends SubsystemBase {
 	public void setHoodCoverPercent(double percent) {
 		/* setSpeed uses range of -1 and 1 for position, with 0 being midway out */
 		hoodController.setSpeed((percent * 2.0) - 1.0);
+	}
+
+	public void stop() {
+		setSpeed(0);
 	}
 
 	public void setSpeed(double rpm) {
