@@ -4,11 +4,25 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.config.ClosedLoopConfig;
+import com.revrobotics.spark.config.EncoderConfig;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -37,7 +51,29 @@ public final class Constants {
 
 	public static class ShooterConstants {
 		public static final int shooterMotor1 = 0;
-		public static final int shooterMotor2 = 0; // TODO: GIVE THESE ACTUAL NAMES
+
+		public static final SparkBaseConfig shooterConfigs = new SparkMaxConfig()
+			.inverted(true) // TODO: verify that invecrted means counterclocwise
+			.idleMode(IdleMode.kBrake)
+			.apply(new EncoderConfig()
+					.velocityConversionFactor(1) // TODO: find ratio between inside of spark and wheels
+			)
+			.apply(new ClosedLoopConfig()
+					.pidf(0, 0, 0, 0, ClosedLoopSlot.kSlot0)
+			)
+		;
+        // public static final TalonFXConfiguration shooterConfigs = new TalonFXConfiguration()
+		// 	.withMotorOutput(new MotorOutputConfigs()
+		// 		.withInverted(InvertedValue.CounterClockwise_Positive)
+		// 		.withNeutralMode(NeutralModeValue.Brake))
+		// 	.withFeedback(new FeedbackConfigs()
+		// 		.withSensorToMechanismRatio(1)) // TODO: find actual ratio
+		// 	.withCurrentLimits(new CurrentLimitsConfigs()
+		// 		.withStatorCurrentLimitEnable(true)
+		// 		.withSupplyCurrentLimitEnable(true)
+		// 		.withSupplyCurrentLimit(40)
+		// 		.withStatorCurrentLimit(80))
+		// 	;
 	}
 
 	public static class ScoringConstants {
