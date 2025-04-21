@@ -13,8 +13,10 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.Servo;
 
+@Logged
 public class Shooter extends SubsystemBase {
 	private SparkMax shootMotor = new SparkMax(2, MotorType.kBrushless);
 	private SparkClosedLoopController shootPID = shootMotor.getClosedLoopController();

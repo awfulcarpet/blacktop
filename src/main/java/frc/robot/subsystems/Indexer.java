@@ -8,9 +8,11 @@ import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexerConstants;
 
+@Logged
 public class Indexer extends SubsystemBase {
   private SparkMax indexerMotorSparkMax = new SparkMax(IndexerConstants.indexerMotorID, MotorType.kBrushless);
   private TimeOfFlight indexerDistanceSensor = new TimeOfFlight(IndexerConstants.indexerDistanceSensorID);
