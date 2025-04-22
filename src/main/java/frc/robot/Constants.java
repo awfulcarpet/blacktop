@@ -45,20 +45,19 @@ public final class Constants {
 	}
 
 	public static class IndexerConstants {
-		public static final int indexRightID = 0;
-		public static final int indexLeftID = 0;
+		public static final int indexRightID = 1;
+		public static final int indexLeftID = 2;
 		public static final int indexerDistanceSensorID = 0;
 
 		public static final double indexerHasBallDistance = 30.0; /* TODO: find actual value */
 
 		public static final SparkBaseConfig rightIndexConfig = new SparkMaxConfig()
-			.inverted(true)
+			.inverted(false) /* counterclockwise */
 			.idleMode(IdleMode.kBrake)
 		;
 
 		public static final SparkBaseConfig leftIndexConfig = new SparkMaxConfig()
-			.inverted(false)
-			.follow(indexRightID)
+			.follow(indexRightID, true)
 		;
 	}
 
