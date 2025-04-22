@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.Servo;
 
 @Logged
 public class Shooter extends SubsystemBase {
-	private SparkMax shootMotor = new SparkMax(2, MotorType.kBrushless);
+	private SparkMax shootMotor = new SparkMax(ShooterConstants.shooterMotorID, MotorType.kBrushless);
 	private SparkClosedLoopController shootPID = shootMotor.getClosedLoopController();
 	private Servo hoodController = new Servo(9);
 

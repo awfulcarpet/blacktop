@@ -33,11 +33,10 @@ public class RobotContainer {
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	// private final Shooter shooter = new Shooter();
+	private final Shooter shooter = new Shooter();
 	public final Indexer indexer = new Indexer();
 	// private final Swerve swerve = new Swerve();
 
-	// private Trigger resetGyro = new Trigger(() -> driveController.getYButton());
 	private Trigger shoot = new Trigger(() -> driveController.getYButton());
 
 	public RobotContainer() {
