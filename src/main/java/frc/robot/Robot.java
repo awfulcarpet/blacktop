@@ -4,14 +4,11 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.Volts;
-
 import edu.wpi.first.epilogue.Epilogue;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.util.Leds;
 
 /**
@@ -58,7 +55,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-	Commands.run(() -> m_robotContainer.indexer.disable(), m_robotContainer.indexer).schedule();
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -75,7 +71,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-	Commands.run(() -> m_robotContainer.indexer.runIndexer(Volts.of(0.5)), m_robotContainer.indexer).schedule();
   }
 
   @Override
@@ -92,7 +87,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-	Commands.run(() -> m_robotContainer.indexer.runIndexer(Volts.of(-0.5)), m_robotContainer.indexer).schedule();
   }
 
   @Override

@@ -34,7 +34,7 @@ public class RobotContainer {
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
 	private final Shooter shooter = new Shooter();
-	public final Indexer indexer = new Indexer();
+	private final Indexer indexer = new Indexer();
 	// private final Swerve swerve = new Swerve();
 
 	private Trigger shoot = new Trigger(() -> driveController.getYButton());
