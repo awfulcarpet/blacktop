@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,6 +17,8 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotation;
 
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -33,6 +36,7 @@ public class MAXSwerveModule {
 	private final CANcoder m_turningEncoder;
 
 	private final SparkClosedLoopController m_drivingClosedLoopController;
+	private final PIDController turnPID = new PIDController(1, 0, 0);
 
 	private double m_chassisAngularOffset = 0;
 	private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -62,8 +66,10 @@ public class MAXSwerveModule {
 				PersistMode.kPersistParameters);
 
 		m_chassisAngularOffset = chassisAngularOffset;
-		m_desiredState.angle = Rotation2d.fromRotations(m_turningEncoder.getPosition().getValueAsDouble());
+		m_desiredState.angle = Rotation2d.fromRotations(m_turningEncoder.getAbsolutePosition().getValueAsDouble());
 		m_drivingEncoder.setPosition(0);
+
+		turnPID.enableContinuousInput(-Math.PI / 2, Math.PI / 2);
 	}
 
 	/**
@@ -107,12 +113,9 @@ public class MAXSwerveModule {
 
 		// Command driving and turning SPARKS towards their respective setpoints.
 		m_drivingClosedLoopController.setReference(correctedDesiredState.speedMetersPerSecond, ControlType.kVelocity);
+		m_turningSpark.setVoltage(turnPID.calculate(m_turningEncoder.getAbsolutePosition().getValue().in(Radians), correctedDesiredState.angle.getRadians()));
 
 		m_desiredState = desiredState;
-	}
-
-	public Rotation2d getRotationError() {
-		return Rotation2d.fromRotations(m_turningSpark.getAbsoluteEncoder().getPosition()).minus(m_desiredState.angle);
 	}
 
 	/** Zeroes all the SwerveModule encoders. */

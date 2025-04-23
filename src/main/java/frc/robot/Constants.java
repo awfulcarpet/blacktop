@@ -102,10 +102,10 @@ public final class Constants {
 
 		// Angular offsets of the modules relative to the chassis in radians
 		// TODO: Tune
-		public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
+		public static final double kFrontLeftChassisAngularOffset = 0;
 		public static final double kFrontRightChassisAngularOffset = 0;
-		public static final double kBackLeftChassisAngularOffset = Math.PI;
-		public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+		public static final double kBackLeftChassisAngularOffset = 0;
+		public static final double kBackRightChassisAngularOffset = 0;
 
 		// SPARK MAX CAN IDs
 		public static final int kFrontLeftDrivingCanId = 11;
@@ -118,7 +118,9 @@ public final class Constants {
 		public static final int kFrontRightTurningCanId = 14;
 		public static final int kRearRightTurningCanId = 16;
 
-		public static final int kPigeonId = 18;
+		public static final int kFrontLeftEncoderId = 18;
+
+		public static final int kPigeonId = 22;
 
 		public static final boolean kGyroReversed = false;
 	}
