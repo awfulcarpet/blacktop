@@ -17,12 +17,8 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.Rotation;
-
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Configs;
@@ -36,7 +32,7 @@ public class MAXSwerveModule {
 	private final CANcoder m_turningEncoder;
 
 	private final SparkClosedLoopController m_drivingClosedLoopController;
-	private final PIDController turnPID = new PIDController(1, 0, 0);
+	private final PIDController turnPID = new PIDController(2.7, 0, 0);
 
 	private double m_chassisAngularOffset = 0;
 	private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
@@ -81,7 +77,7 @@ public class MAXSwerveModule {
 		// Apply chassis angular offset to the encoder position to get the position
 		// relative to the chassis.
 		return new SwerveModuleState(m_drivingEncoder.getVelocity(),
-				new Rotation2d(m_turningEncoder.getAbsolutePosition().getValueAsDouble()));
+				Rotation2d.fromRotations(m_turningEncoder.getAbsolutePosition().getValueAsDouble()));
 	}
 
 	/**
@@ -94,7 +90,7 @@ public class MAXSwerveModule {
 		// relative to the chassis.
 		return new SwerveModulePosition(
 				m_drivingEncoder.getPosition(),
-				Rotation2d.fromRadians(m_turningEncoder.getAbsolutePosition().getValueAsDouble()));
+				Rotation2d.fromRotations(m_turningEncoder.getAbsolutePosition().getValueAsDouble()));
 	}
 
 	/**
