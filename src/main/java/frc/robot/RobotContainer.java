@@ -37,7 +37,7 @@ public class RobotContainer {
 	// private final Indexer indexer = new Indexer();
 	private final Swerve swerve = new Swerve();
 
-	// private Trigger shoot = new Trigger(() -> driveController.getYButton());
+	private Trigger shoot = new Trigger(() -> driveController.getYButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
