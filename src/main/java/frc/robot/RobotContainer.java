@@ -33,11 +33,11 @@ public class RobotContainer {
 	public Supplier<Double> leftY = () -> DriverConstants.deadbandVal(-driveController.getLeftY(), DriverConstants.joystickDeadzone);
 	public Supplier<Double> rightX = () -> DriverConstants.deadbandVal(-driveController.getRightX(), DriverConstants.joystickDeadzone);
 
-	private final Shooter shooter = new Shooter();
-	private final Indexer indexer = new Indexer();
-	// private final Swerve swerve = new Swerve();
+	// private final Shooter shooter = new Shooter();
+	// private final Indexer indexer = new Indexer();
+	private final Swerve swerve = new Swerve();
 
-	private Trigger shoot = new Trigger(() -> driveController.getYButton());
+	// private Trigger shoot = new Trigger(() -> driveController.getYButton());
 
 	public RobotContainer() {
 		// Configure the trigger bindings
@@ -47,11 +47,11 @@ public class RobotContainer {
 
 	private void configureBindings() {
 		// shoot.whileTrue(new Shoot(shooter, indexer, 100, 60));
-		// swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true));
+		swerve.setDefaultCommand(swerve.drive(leftY, leftX, rightX, () -> true));
 	}
 
 	private void configDefaultCommands() {
-		indexer.setDefaultCommand(Commands.run(() -> indexer.disable(), indexer));
+		// indexer.setDefaultCommand(Commands.run(() -> indexer.disable(), indexer));
 	}
 
 	public Command getAutonomousCommand() {
